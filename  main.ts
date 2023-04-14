@@ -1,2 +1,3 @@
 //globals
-version;
+
+version

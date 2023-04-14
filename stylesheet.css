@@ -1,0 +1,131 @@
+:root {
+    --background-color: black;
+    --color-A: #9400d3;
+    --color-B: #f44174;
+    --color-C: #f9dc5c;
+    --color-D: #01baef;
+    --color-D: #017fa2;
+    --color-E: #171738;
+    --color-F: #09bc8a;
+    --color-G: #8fd694;
+    --color-H: #333333;
+    --hover-color: linear-gradient(0deg, rgba(251, 141, 63, 1) 0%, rgba(252, 70, 107, 1) 100%);
+    /* --running-color: linear-gradient(0deg, rgba(34, 118, 195, 1) 0%, rgba(119, 202, 255, 1) 100%); */
+    /* --running-color: rgba(34, 118, 195, 1); */
+    /* --running-color: radial-gradient(circle, rgba(49, 122, 255, 1) 0%, rgba(43, 110, 232, 1) 100%); */
+    --running-color: radial-gradient(circle, rgba(38, 132, 218, 1) 0%, rgba(34, 118, 195, 1) 100%);
+    --neighbourhood-color: radial-gradient(circle, rgba(0, 159, 255, 1) 0%, rgba(0, 147, 236, 1) 100%);
+    --complete-color: linear-gradient(0deg, rgba(195, 53, 34, 1) 0%, rgba(255, 119, 161, 1) 100%);
+    --complete-color: linear-gradient( 0deg, rgba(255, 199, 135, 0.8) 0%, rgba(180, 84, 0, 0.8) 30%, rgba(113, 56, 0, 0.8) 35%, rgba(255, 255, 255, 0.8) 36%, rgba(0, 155, 255, 0.8) 100%);
+    --border-color: white;
+    --link-color: white;
+    --stats-color: var(--color-D);
+    --inv-color: var(--color-B);
+}
+
+* {
+    font-family: "Source Code Pro", monospace;
+    /* font-family: "Courier Prime", monospace; */
+    /* font-family: "IBM Plex Mono", monospace; */
+    text-align: left;
+    background: var(--background-color);
+    font-weight: 400;
+    color: var(--color-A);
+    line-height: 90%;
+    /* color: #fff; */
+}
+
+h1 {
+    font-size: 20px;
+    background: none;
+    font-weight: 400;
+    line-height: 90%;
+}
+
+
+/* this goes around EVERYTHING */
+
+.all_encompassing_wrapper {
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    flex-grow: 0;
+    max-width: 90vw;
+    max-height: 100vh;
+}
+
+
+/* this is the wrapper around everything in the header */
+
+.header_block {
+    display: flex;
+    margin: 10 auto;
+    flex-direction: row;
+    color: var(--color-A);
+    justify-content: space-between;
+    padding: 8px;
+    border-style: solid;
+    border-color: var(--border-color);
+    /* background-color: var(--background-color);
+    background: var(--hover-color); */
+}
+
+
+/* this is the wrapper around everything that's in the actual meat of the game */
+
+.body_block {
+    display: flex;
+    margin: 10 auto;
+    flex-direction: column;
+    color: var(--color-A);
+    justify-content: flex-start;
+    padding: 8px;
+    gap: 16px;
+    /* border-style: solid;
+    border-color: var(--color-C); */
+    flex-wrap: wrap;
+}
+
+
+/* this goes around the title and also the links, this is so they can be close together
+but together shoved off to the right */
+
+.title_link_wrapper {
+    display: flex;
+    flex-flow: row;
+    max-height: 20vh;
+}
+
+
+/* just the title, version, and who by */
+
+.main_title {
+    font-size: 15px;
+    color: var(--color-A);
+    text-align: right;
+    font-weight: 400;
+    line-height: 90%;
+    padding-right: 8px;
+    /* text-justify: right; */
+    /* font-family: "Bebas Neue", monospace; */
+    font-size: 1.2em;
+}
+
+
+/* a few external links they're sideways lmao */
+
+.title_links {
+    text-transform: lowercase;
+    font-size: 1em;
+    color: white;
+    writing-mode: vertical-lr;
+    align-self: center;
+    text-align: center;
+}
+
+
+/* this makes links white */
+
+a {
+    color: var(--color-D);
+}
