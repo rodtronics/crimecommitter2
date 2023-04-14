@@ -30,7 +30,7 @@
     text-align: left;
     background: var(--background-color);
     font-weight: 400;
-    color: var(--color-A);
+    /* color: var(--color-A); */
     line-height: 90%;
     /* color: #fff; */
 }
@@ -61,29 +61,19 @@ h1 {
     display: flex;
     margin: 10 auto;
     flex-direction: row;
-    color: var(--color-A);
+    /* color: var(--color-B); */
     justify-content: space-between;
     padding: 8px;
     border-style: solid;
     border-color: var(--border-color);
     /* background-color: var(--background-color);
     background: var(--hover-color); */
+    align-items: center;
 }
 
-
-/* this is the wrapper around everything that's in the actual meat of the game */
-
-.body_block {
-    display: flex;
-    margin: 10 auto;
-    flex-direction: column;
+.stats_summary {
     color: var(--color-A);
-    justify-content: flex-start;
-    padding: 8px;
-    gap: 16px;
-    /* border-style: solid;
-    border-color: var(--color-C); */
-    flex-wrap: wrap;
+    padding-left: 8px;
 }
 
 
@@ -101,7 +91,8 @@ but together shoved off to the right */
 
 .main_title {
     font-size: 15px;
-    color: var(--color-A);
+    color: var(--color-B);
+    /* color: var(--hover-color); */
     text-align: right;
     font-weight: 400;
     line-height: 90%;
@@ -128,4 +119,20 @@ but together shoved off to the right */
 
 a {
     color: var(--color-D);
+}
+
+
+/* this is the wrapper around everything that's in the actual meat of the game */
+
+.body_block {
+    display: flex;
+    margin: 10 auto;
+    flex-direction: column;
+    color: var(--color-A);
+    justify-content: flex-start;
+    padding: 8px;
+    gap: 16px;
+    /* border-style: solid;
+    border-color: var(--color-C); */
+    flex-wrap: wrap;
 }
