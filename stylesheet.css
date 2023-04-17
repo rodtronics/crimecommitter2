@@ -42,24 +42,6 @@ h1 {
     line-height: 90%;
 }
 
-.about_title {
-    /* color: black; */
-    color: var(--color-B);
-    /* color: white;  */
-    font-weight: 1000;
-    font-size: 10px;
-    /* background: linear-gradient(0deg, rgba(255, 0, 0, 1) 0%, rgba(249, 255, 0, 1) 100%); */
-}
-
-.about {
-    /* color: black; */
-    color: var(--color-D);
-    font-weight: 400;
-    font-size: 15px;
-    /* color: white; */
-    /* background: linear-gradient(0deg, rgba(255, 0, 0, 1) 0%, rgba(249, 255, 0, 1) 100%); */
-}
-
 
 /* this goes around EVERYTHING */
 
