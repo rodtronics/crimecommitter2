@@ -41,6 +41,7 @@
     /* color: var(--color-A); */
     line-height: 90%;
     /* color: #fff; */
+    user-select: none;
 }
 
 h1 {
@@ -84,6 +85,10 @@ h1 {
     padding-left: 8px;
 }
 
+.stats_summary:hover {
+    color: var(--color-G);
+}
+
 
 /* this goes around the title and also the links, this is so they can be close together
 but together shoved off to the right */
@@ -98,16 +103,17 @@ but together shoved off to the right */
 /* just the title, version, and who by */
 
 .main_title {
-    font-size: 15px;
     color: var(--color-B);
-    /* color: var(--hover-color); */
     text-align: right;
     font-weight: 400;
     line-height: 90%;
     padding-right: 8px;
-    /* text-justify: right; */
-    /* font-family: "Bebas Neue", monospace; */
     font-size: 1.2em;
+    user-select: all;
+}
+
+.main_title:hover {
+    color: var(--color-F);
 }
 
 
@@ -120,6 +126,7 @@ but together shoved off to the right */
     writing-mode: vertical-lr;
     align-self: center;
     text-align: center;
+    font-family: 'DynaPuff', cursive;
 }
 
 
