@@ -24,9 +24,17 @@
 }
 
 * {
-    font-family: "Source Code Pro", monospace;
-    /* font-family: "Courier Prime", monospace; */
-    /* font-family: "IBM Plex Mono", monospace; */
+    /* a lot of fonts here
+    Source Code Pro is preferred for the aesthetic
+    but others might come in handy for this and that
+    */
+    /* font-family: 'Bungee Shade', cursive; */
+    /* font-family: 'Courier Prime', monospace; */
+    /* font-family: 'DynaPuff', cursive; */
+    /* font-family: 'Press Start 2P', cursive; */
+    /* font-family: 'Redacted Script', cursive; */
+    /* font-family: 'Share Tech Mono', monospace; */
+    font-family: 'Source Code Pro', monospace;
     text-align: left;
     background: var(--background-color);
     font-weight: 400;
@@ -130,9 +138,23 @@ a {
     flex-direction: column;
     color: var(--color-A);
     justify-content: flex-start;
+    padding-top: 8px;
+    gap: 8px;
+    border-style: groove;
+    border-color: var(--color-C);
+    flex-wrap: wrap;
+    /* height: 600px; */
+    min-height: 500px;
+    max-height: 500px;
+}
+
+.unit_of_crime {
+    display: flex;
+    border-style: dotted;
     padding: 8px;
-    gap: 16px;
-    /* border-style: solid;
-    border-color: var(--color-C); */
+    width: 20%;
     flex-wrap: wrap;
 }
+
+
+/*this is the modal*/

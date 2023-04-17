@@ -4,8 +4,8 @@
 // ***
 // GLOBALS
 // ***
-var versionNumber = "v0.1.1";
-var versionCode = "fashion crimes";
+var versionNumber = "v0.1.2";
+var versionCode = "fashion dames";
 
 
 // ***
@@ -40,6 +40,32 @@ function updateHeaderGlobalFundamentals() {
     document.getElementById("headerGlobalFundamentals").innerHTML = newHeaderGlobalFundamentalsHTML;
 }
 
+// experiement to add a bunch of crime blocks
+
+function addBunchOfCrimeBlocks(number_of_blocks_to_make) {
+
+    for (let divnum = 0; divnum < number_of_blocks_to_make; divnum++) {
+        // make new div of element div
+        var newdiv = document.createElement("div");
+        //define its class
+        newdiv.className = "unit_of_crime";
+        //wont bother giving it a name for this
+        //but will put something in it
+        newdiv.innerHTML = "words" + divnum;
+
+        // append into the crimes box
+        document.getElementById("crimeBlockID").appendChild(newdiv);
+
+    }
+}
+
+
+
+
+/// ***
+/// MODAL
+///***
+
 
 
 
@@ -70,6 +96,8 @@ function refreshLoop(timestamp) {
 document.getElementById("titleID").innerHTML = "crime committer II<br>" + versionNumber + " " + versionCode + " <br>wfproductionsnz " + dayjs().year();
 updateHeaderGlobalFundamentals();
 
+
+addBunchOfCrimeBlocks(50);
 
 
 
