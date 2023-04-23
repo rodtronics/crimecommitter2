@@ -147,8 +147,8 @@ a {
     justify-content: flex-start;
     padding-top: 8px;
     gap: 8px;
-    border-style: groove;
-    border-color: var(--color-C);
+    /* border-style: groove;
+    border-color: var(--color-C); */
     flex-wrap: wrap;
     /* height: 600px; */
     min-height: 500px;
@@ -157,10 +157,21 @@ a {
 
 .unit_of_crime {
     display: flex;
+    flex-direction: column;
     border-style: dotted;
     padding: 8px;
     width: 20%;
     flex-wrap: wrap;
+    color: var(--color-A);
+    gap: 8px;
+}
+
+.unit_of_crime_button {
+    color: var(--color-B);
+    border-style: dotted;
+    border-color: var(--color-A);
+    padding: 8px;
+    font-size: 1em;
 }
 
 
