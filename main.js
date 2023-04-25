@@ -74,6 +74,9 @@ function timedCrime(
 // FUNCTIONS
 // ***
 
+// ***
+// THESE ARE FUNCTIONS THAT GET LOOPED THRU
+
 // update the header where it shows basic numbers like $$ and crime
 // to do: convert notoriety into a word like petty criminal etc
 // to do: make money and crimes committed some of those things that handles big numbers
@@ -84,6 +87,9 @@ function updateHeaderGlobalFundamentals() {
     document.getElementById("headerGlobalFundamentals").innerHTML = newHeaderGlobalFundamentalsHTML;
 }
 
+
+// this simply changes what is on the comms panel
+// titleText can be left blank
 function updateCommsPanel(titleText, bodyText) {
     var newCommsInnerHTML = "";
     if (titleText != "") {
@@ -93,15 +99,12 @@ function updateCommsPanel(titleText, bodyText) {
     document.getElementById("commsBlockID").innerHTML = newCommsInnerHTML;
 }
 
-
-
 //this function just changes what text is on timers
 // it doesnt test them to see if time has paseds
 function refreshCrimeTimers(timedCrimeIndex) {
     switch (setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.state) {
         case 0:
-
-        setOfTimedCrimes[timedCrimeIndex].timedCrimeButton.innerHTML = "commit crime";
+            setOfTimedCrimes[timedCrimeIndex].timedCrimeButton.innerHTML = "commit crime";
             break;
         case 1:
             var formattedTime = "";
@@ -112,12 +115,15 @@ function refreshCrimeTimers(timedCrimeIndex) {
             break;
         case 2:
             setOfTimedCrimes[timedCrimeIndex].timedCrimeButton.innerHTML = "crime committed";
-
-
+            break;
+        case 3:
+            setOfTimedCrimes[timedCrimeIndex].timedCrimeButton.innerHTML = "locked";
     }
 
 }
 
+
+// just tests to see if the time on the timer has already passed
 function checkIfTimersElapsed(timedCrimeIndex) {
     if (setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.state == 1) {
         if (dayjs().isAfter(setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.datetimeCrimeWillEnd)) {
