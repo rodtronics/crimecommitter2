@@ -52,7 +52,8 @@ function timedCrime(
     notoToUnlock,
     notoToBeVisible,
     rewardMoney,
-    rewardNoto
+    rewardNoto,
+    textInComms
 ) {
     this.name = name;
     this.millisecondsToComplete = millisecondsToComplete;
@@ -63,7 +64,16 @@ function timedCrime(
         this.timedCrimeValues = new timedCrimeValues(
             0, 0, 0, 0
         )
+    this.textInComms = textInComms;
+    this.buttonInfo = document.createElement("button");
+    this.buttonTimer = document.createElement("button");
+    // var timedCrimeButton = document.createElement("button");
+    // timedCrimeButton.className = "unit_of_crime_info";
+    // timedCrimeButton.id = "name" + "buttonID;"
+    // timedCrimeButton.addEventListener("click", () => updateCommsPanel("maybe", "this works?"));
+    // return timedCrimeButton;
 }
+
 
 
 
@@ -79,6 +89,15 @@ function updateHeaderGlobalFundamentals() {
         "<br>$" + globalFundamentals.playerMoney.toLocaleString("en-US") +
         "<br>" + globalFundamentals.playerNoto + " notoriety"
     document.getElementById("headerGlobalFundamentals").innerHTML = newHeaderGlobalFundamentalsHTML;
+}
+
+function updateCommsPanel(titleText, bodyText) {
+    var newCommsInnerHTML = "";
+    if (titleText != "") {
+        newCommsInnerHTML += "<h2>" + titleText + "</h2>";
+    }
+    newCommsInnerHTML += "<br>" + bodyText;
+    document.getElementById("commsBlockID").innerHTML = newCommsInnerHTML;
 }
 
 // experiement to add a bunch of crime blocks
@@ -204,23 +223,56 @@ function setDatetimes() {
 }
 
 createAccomodationDiv();
+updateCommsPanel("", "this is a game");
 
-// make first crime and then add as a div
-var crime001_content = new timedCrime('jaywalking', 10000, 0, 0, 0, 10);
-var crime001_div = document.createElement("div");
-// set the class for the css
-crime001_div.className = "unit_of_crime";
-crime001_div.id = "crime001";
-// set the text inside
-crime001_div.innerHTML = crime001_content.name;
-document.getElementById("crimeBlockID").appendChild(crime001_div);
-var crime001_button = document.createElement("button");
-crime001_button.className = "unit_of_crime_button";
-crime001_button.id = "crime001_button";
-crime001_button.innerHTML = "commit crime<br>";
-document.getElementById("crime001").appendChild(crime001_button);
 
-document.getElementById("crime001_button").addEventListener("click", () => clickOnCrimeButton());
+function createInfoButton(textInButton, textDisplayedInComms) {
+    var newInfoButton = document.createElement("button");
+    newInfoButton.innerHTML = textInButton;
+    newInfoButton.className = "unit_of_crime_info";
+    newInfoButton.addEventListener("click", () => updateCommsPanel(textInButton, textDisplayedInComms));
+    return newInfoButton;
+}
+
+function createTimedCrimeButton(textInButton) {
+    var newTimeCrimeButton = document.createElement("button");
+    newTimeCrimeButton.className = "unit_of_crime_button";
+}
+
+// ok so create a funct/struct that holds the info abot the timed crime
+// create pair of buttons, one is info
+// next is timer
+// add info to array of crimes to cycle thru?
+
+
+
+
+
+
+// var crime002_content = new timedCrime('jaywalking', 10000, 0, 0, 0, 10);
+// crime002_content.buttonInfo = createInfoButton(crime002_content.name);
+// crime002_content.buttonTimer = createTimedCrimeButton(crime002_content.name);
+
+document.getElementById("crimeBlockID").appendChild(setOfTimedCrimes[0].buttonInfo);
+// document.getElementById("crimeBlockID").appendChild(crime002_content.buttonTimer);
+
+// // make first crime and then add as a div
+// var crime001_content = new timedCrime('jaywalking', 10000, 0, 0, 0, 10);
+// var crime001_div = document.createElement("div");
+// // set the class for the css
+// crime001_div.className = "unit_of_crime";
+// crime001_div.id = "crime001";
+// // set the text inside
+// crime001_div.innerHTML = crime001_content.name;
+// document.getElementById("crimeBlockID").appendChild(crime001_div);
+// var crime001_button = document.createElement("button");
+// crime001_button.className = "unit_of_crime_button";
+// crime001_button.id = "crime001_button";
+// crime001_button.innerHTML = "commit crime<br>";
+// document.getElementById("crime001").appendChild(crime001_button);
+// document.getElementById("crime001").appendChild(createInfoButton("jaywalking info", "jaywalking is an offence<br>for some reason<br><br>sometimes you need to walk, and sometimes you need to get over there. sometimes the most direct route is an illegal route."));
+
+// document.getElementById("crime001_button").addEventListener("click", () => clickOnCrimeButton());
 
 
 
@@ -231,8 +283,17 @@ document.getElementById("crime001_button").addEventListener("click", () => click
 
 
 // set the title text, version number and made by text, from values just above
-document.getElementById("titleID").innerHTML = "crime committer II<br>" + versionNumber + " " + versionCode + " <br>wfproductionsnz " + dayjs().year();
+// document.getElementById("titleID").innerHTML = "crime committer II<br>" + versionNumber + " " + versionCode + " <br>wfproductionsnz " + dayjs().year();
 updateHeaderGlobalFundamentals();
+
+document.getElementById("titleID").innerHTML = "";
+var crimeCommitterLogoButton = document.createElement("button");
+crimeCommitterLogoButton.className = "main_title";
+crimeCommitterLogoButton.innerHTML = "crime committer II<br>" + versionNumber + " " + versionCode + " <br>wfproductionsnz " + dayjs().year()
+document.getElementById("titleID").appendChild(crimeCommitterLogoButton);
+document.getElementById("titleID").addEventListener("click", () => updateCommsPanel("crime committer ][",
+    "welcome to the game<br><br>" +
+    "click on things to execute crimes<br><br>I really hope you enjoy"));
 
 
 //addBunchOfCrimeBlocks(50);

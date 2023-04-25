@@ -109,7 +109,8 @@ but together shoved off to the right */
     line-height: 90%;
     padding-right: 8px;
     font-size: 1.2em;
-    user-select: all;
+    /* user-select: all; */
+    border: none;
 }
 
 .main_title:hover {
@@ -139,6 +140,12 @@ a {
 
 /* this is the wrapper around everything that's in the actual meat of the game */
 
+.body_block_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .body_block {
     display: flex;
     margin: 10 auto;
@@ -153,6 +160,20 @@ a {
     /* height: 600px; */
     min-height: 500px;
     max-height: 500px;
+    max-width: 70%;
+    min-width: 70%;
+}
+
+.comms_block {
+    display: flex;
+    color: var(--color-C);
+    /* border-style: groove;
+    border-color: var(--color-C); */
+    max-width: 30%;
+    min-width: 30%;
+    gap: 8px;
+    padding: 20px;
+    flex-direction: column;
 }
 
 .unit_of_crime {
@@ -172,6 +193,15 @@ a {
     border-color: var(--color-A);
     padding: 8px;
     font-size: 1em;
+}
+
+.unit_of_crime_info {
+    border-style: none;
+    color: var(--color-A);
+}
+
+.unit_of_crime_info:hover {
+    color: var(--color-C)
 }
 
 
