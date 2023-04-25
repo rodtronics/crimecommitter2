@@ -4,8 +4,8 @@
 // ***
 // GLOBALS
 // ***
-var versionNumber = "v0.2";
-var versionCode = "jaywalker";
+var versionNumber = "v0.2.2";
+var versionCode = "many crimes";
 
 
 // ***
@@ -52,8 +52,7 @@ function timedCrime(
     notoToUnlock,
     notoToBeVisible,
     rewardMoney,
-    rewardNoto,
-    textInComms
+    rewardNoto
 ) {
     this.name = name;
     this.millisecondsToComplete = millisecondsToComplete;
@@ -64,14 +63,8 @@ function timedCrime(
         this.timedCrimeValues = new timedCrimeValues(
             0, 0, 0, 0
         )
-    this.textInComms = textInComms;
-    this.buttonInfo = document.createElement("button");
-    this.buttonTimer = document.createElement("button");
-    // var timedCrimeButton = document.createElement("button");
-    // timedCrimeButton.className = "unit_of_crime_info";
-    // timedCrimeButton.id = "name" + "buttonID;"
-    // timedCrimeButton.addEventListener("click", () => updateCommsPanel("maybe", "this works?"));
-    // return timedCrimeButton;
+    this.timedCrimeButton = document.createElement("button");
+  
 }
 
 
@@ -100,52 +93,35 @@ function updateCommsPanel(titleText, bodyText) {
     document.getElementById("commsBlockID").innerHTML = newCommsInnerHTML;
 }
 
-// experiement to add a bunch of crime blocks
 
-function addBunchOfCrimeBlocks(number_of_blocks_to_make) {
-
-    for (let divnum = 0; divnum < number_of_blocks_to_make; divnum++) {
-        // make new div of element div
-        var newdiv = document.createElement("div");
-        //define its class
-        newdiv.className = "unit_of_crime";
-        //wont bother giving it a name for this
-        //but will put something in it
-        newdiv.innerHTML = "words" + divnum;
-
-        // append into the crimes box
-        document.getElementById("crimeBlockID").appendChild(newdiv);
-
-    }
-}
 
 //this function just changes what text is on timers
 // it doesnt test them to see if time has paseds
-function refreshCrimeTimers() {
-    switch (crime001_content.timedCrimeValues.state) {
+function refreshCrimeTimers(timedCrimeIndex) {
+    switch (setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.state) {
         case 0:
 
-            crime001_button.innerHTML = "commit crime";
+        setOfTimedCrimes[timedCrimeIndex].timedCrimeButton.innerHTML = "commit crime";
             break;
         case 1:
             var formattedTime = "";
-            var timeUntilComplete = dayjs.duration(dayjs(crime001_content.timedCrimeValues.datetimeCrimeWillEnd).diff(dayjs()));
+            var timeUntilComplete = dayjs.duration(dayjs(setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.datetimeCrimeWillEnd).diff(dayjs()));
             timeUntilComplete.seconds = timeUntilComplete.format("ss");
-            crime001_button.innerHTML = "time until complete<br>" +
+            setOfTimedCrimes[timedCrimeIndex].timedCrimeButton.innerHTML = "time until complete<br>" +
                 timeUntilComplete.seconds + " s";
             break;
         case 2:
-            crime001_button.innerHTML = "crime committed";
+            setOfTimedCrimes[timedCrimeIndex].timedCrimeButton.innerHTML = "crime committed";
 
 
     }
 
 }
 
-function checkIfTimersElapsed() {
-    if (crime001_content.timedCrimeValues.state == 1) {
-        if (dayjs().isAfter(crime001_content.timedCrimeValues.datetimeCrimeWillEnd)) {
-            crime001_content.timedCrimeValues.state = 2;
+function checkIfTimersElapsed(timedCrimeIndex) {
+    if (setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.state == 1) {
+        if (dayjs().isAfter(setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.datetimeCrimeWillEnd)) {
+            setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.state = 2;
         }
     }
 }
@@ -186,8 +162,10 @@ function refreshLoop(timestamp) {
 
 
     // refresh all the timers
-    checkIfTimersElapsed();
-    refreshCrimeTimers();
+    for (var cyclerIndex = 0; cyclerIndex < 2; cyclerIndex++) {
+        checkIfTimersElapsed(cyclerIndex);
+        refreshCrimeTimers(cyclerIndex);
+    }
     // and set up the refresh loop to start next repaint of the frame
     window.requestAnimationFrame(refreshLoop);
 }
@@ -198,26 +176,27 @@ function refreshLoop(timestamp) {
 // START OF THE EXECUTION
 // ***
 
-function clickOnCrimeButton() {
-    if (crime001_content.timedCrimeValues.state == 0) {
-        setDatetimes();
-        crime001_content.timedCrimeValues.state = 1;
+function clickOnCrimeButton(timedCrimeIndex) {
+    if (setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.state == 0) {
+        setDatetimes(timedCrimeIndex);
+        setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.state = 1;
     }
-    if (crime001_content.timedCrimeValues.state == 2) {
-        globalFundamentals.playerMoney += crime001_content.rewardMoney;
-        globalFundamentals.playerNoto += crime001_content.rewardNoto;
-        crime001_content.timedCrimeValues.state = 0;
+    if (setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.state == 2) {
+        globalFundamentals.playerMoney += setOfTimedCrimes[timedCrimeIndex].rewardMoney;
+        globalFundamentals.playerNoto += setOfTimedCrimes[timedCrimeIndex].rewardNoto;
+        setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.state = 0;
+        updateCommsPanel("update","you got<br><br>"+setOfTimedCrimes[timedCrimeIndex].rewardMoney+" money<br><br>"+setOfTimedCrimes[timedCrimeIndex].rewardNoto+" notoriety")
 
     }
 
 }
 
-function setDatetimes() {
+function setDatetimes(timedCrimeIndex) {
     // set time crime initiated
-    crime001_content.timedCrimeValues.datetimeCrimeStarted = dayjs();
-    completionMS = crime001_content.millisecondsToComplete;
+    setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.datetimeCrimeStarted = dayjs();
+    completionMS = setOfTimedCrimes[timedCrimeIndex].millisecondsToComplete;
     // set time the crime will be completed
-    crime001_content.timedCrimeValues.datetimeCrimeWillEnd = dayjs().add(dayjs(completionMS, "millisecond"));
+    setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.datetimeCrimeWillEnd = dayjs().add(dayjs(completionMS, "millisecond"));
     // console.log("now is " + dayjs().format("DD/MM/YY HH:mm:ss"));
     // console.log("will finish at " + dayjs(crime001_content.timedCrimeValues.datetimeCrimeWillEnd).format("DD/MM/YY HH:mm:ss"));
 }
@@ -234,15 +213,46 @@ function createInfoButton(textInButton, textDisplayedInComms) {
     return newInfoButton;
 }
 
-function createTimedCrimeButton(textInButton) {
+function createTimedCrimeButton(timedCrimeIndex) {
+
+    
+
     var newTimeCrimeButton = document.createElement("button");
     newTimeCrimeButton.className = "unit_of_crime_button";
+    newTimeCrimeButton.addEventListener("click",()=>clickOnCrimeButton(timedCrimeIndex))
+    return newTimeCrimeButton;
 }
 
-// ok so create a funct/struct that holds the info abot the timed crime
-// create pair of buttons, one is info
-// next is timer
-// add info to array of crimes to cycle thru?
+
+function createCrimeDiv(titleOfDiv, textDisplayedInComms)
+{
+    var newDiv = document.createElement("div");
+    newDiv.className = "unit_of_crime";
+    newDiv.id = titleOfDiv + "DivID";
+    document.getElementById("crimeBlockID").appendChild(newDiv);
+    newDiv.appendChild(createInfoButton(titleOfDiv, textDisplayedInComms));
+    return newDiv;
+    
+    
+    
+}
+
+
+// make minor crimes panel
+var setOfTimedCrimes = [];
+var minorCrimesDiv = createCrimeDiv("MINOR CRIMES", "these crimes, they don't really matter, it's impossible for them to hurt people");
+minorCrimesDiv.appendChild(createInfoButton("jaywalking", "the lamest of crimes"));
+
+setOfTimedCrimes.push(new timedCrime("jaywalking", 5000, 0, 0, 0, 5));
+setOfTimedCrimes[0].timedCrimeButton = createTimedCrimeButton(0);
+minorCrimesDiv.appendChild(setOfTimedCrimes[0].timedCrimeButton);
+
+minorCrimesDiv.appendChild(createInfoButton("loitering", "the shamest of crimes"));
+setOfTimedCrimes.push(new timedCrime("loitering", 10000, 0, 0, 0, 20));
+setOfTimedCrimes[1].timedCrimeButton = createTimedCrimeButton(1);
+minorCrimesDiv.appendChild(setOfTimedCrimes[1].timedCrimeButton);
+
+
 
 
 
@@ -253,7 +263,7 @@ function createTimedCrimeButton(textInButton) {
 // crime002_content.buttonInfo = createInfoButton(crime002_content.name);
 // crime002_content.buttonTimer = createTimedCrimeButton(crime002_content.name);
 
-document.getElementById("crimeBlockID").appendChild(setOfTimedCrimes[0].buttonInfo);
+// document.getElementById("crimeBlockID").appendChild(setOfTimedCrimes[0].buttonInfo);
 // document.getElementById("crimeBlockID").appendChild(crime002_content.buttonTimer);
 
 // // make first crime and then add as a div
