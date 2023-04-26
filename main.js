@@ -67,6 +67,19 @@ function timedCrime(
 
 }
 
+// this function/struct is holds an investment.
+// interestGained is the multiplier applied at the end
+// eg 1.05 means 5% interest over the term
+function timedInvestment(index,name, millisecondsToComplete, moneyInvested, interestGained, datetimeCrimeStarted, datetimeCrimeWillEnd, state)
+{
+    this.index = index;
+    this.name = name;
+    this.millisecondsToComplete = millisecondsToComplete;
+    this.moneyInvested = moneyInvested;
+    this.interestGained = interestGained;
+    this.datetimeCrimeStarted = datetimeCrimeStarted;
+    this.datetimeCrimeWillEnd = datetimeCrimeWillEnd;
+}
 
 
 
@@ -115,7 +128,7 @@ function refreshCrimeTimers(timedCrimeIndex) {
                 timeUntilComplete.seconds + " s";
             break;
         case 2:
-            setOfTimedCrimes[timedCrimeIndex].timedCrimeButton.innerHTML = "crime committed";
+            setOfTimedCrimes[timedCrimeIndex].timedCrimeButton.innerHTML = "crime committed<br>collect reward";
             break;
         case 3:
             setOfTimedCrimes[timedCrimeIndex].timedCrimeButton.innerHTML = "locked";
@@ -141,43 +154,6 @@ function checkIfTimersElapsed(timedCrimeIndex) {
         }
     }
 }
-
-
-
-
-
-
-
-/// ***
-/// MODAL
-///***
-
-
-
-
-
-
-
-
-// ***
-// LOOP CALLED EVERY FRAME
-// ***
-function refreshLoop(timestamp) {
-    updateHeaderGlobalFundamentals();
-    // globalFundamentals.playerCrimesCommitted = globalFundamentals.playerCrimesCommitted + 1;
-
-
-    // refresh all the timers
-    for (var cyclerIndex = 0; cyclerIndex < 2; cyclerIndex++) {
-        checkIfTimersElapsed(cyclerIndex);
-        refreshCrimeTimers(cyclerIndex);
-    }
-    // and set up the refresh loop to start next repaint of the frame
-    window.requestAnimationFrame(refreshLoop);
-}
-
-
-
 
 function clickOnCrimeButton(timedCrimeIndex) {
     if (setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.state == 0) {
@@ -213,30 +189,6 @@ function addPanelsIfEligible() {
     }
 }
 
-// this should be called once to create a div for housing
-// just ran once at start
-function createAccomodationDiv() {
-    var accomodationDiv = document.createElement("div");
-    accomodationDiv.className = "unit_of_crime";
-    accomodationDiv.id = "acommodationDivID";
-    document.getElementById("crimeBlockID").appendChild(accomodationDiv);
-    accomodationDiv.innerHTML = "accomodation:";
-    var accomodationButton = createInfoButton("a cardboard box", "this is your home. it isn't much but.. well it's inexpensive");
-    accomodationButton.id = "accomodationButtonID";
-    accomodationDiv.appendChild(accomodationButton);
-}
-
-function createAutoCrimePanel() {
-    var autoCrimeDiv = createCrimeDiv("friendship", "you have made a friend uwu<br><br>your friend is a passionate criminal,<br>" +
-        "and if you want, they can encourage you to recommit crimes once you've finished them");
-    var autoCrimeButton = document.createElement("button");
-    autoCrimeButton.className = "unit_of_crime_button";
-    autoCrimeButton.id = "autoCrimeButtonID";
-    autoCrimeButton.addEventListener("click", () => toggleAutoCrimeButton());
-    autoCrimeDiv.appendChild(autoCrimeButton);
-    document.getElementById("autoCrimeButtonID").innerHTML = "autocrime is OFF";
-}
-
 function toggleAutoCrimeButton() {
     if (autoCrimeState == true) {
         autoCrimeState = false;
@@ -248,8 +200,12 @@ function toggleAutoCrimeButton() {
     }
 }
 
+// ***
+// CREATION FUNCTIONS
+// REUSABLE ONES
+// ***
 
-function createCrimeDiv(titleOfDiv, textDisplayedInComms) {
+function createPanelDiv(titleOfDiv, textDisplayedInComms) {
     var newDiv = document.createElement("div");
     newDiv.className = "unit_of_crime";
     newDiv.id = titleOfDiv + "DivID";
@@ -267,16 +223,92 @@ function createInfoButton(textInButton, textDisplayedInComms) {
 }
 
 function createTimedCrimeButton(timedCrimeIndex) {
-    var newTimeCrimeButton = document.createElement("button");
-    newTimeCrimeButton.className = "unit_of_crime_button";
-    newTimeCrimeButton.addEventListener("click", () => clickOnCrimeButton(timedCrimeIndex))
-    return newTimeCrimeButton;
+    var newTimedCrimeButton = document.createElement("button");
+    newTimedCrimeButton.className = "unit_of_crime_button";
+    newTimedCrimeButton.addEventListener("click", () => clickOnCrimeButton(timedCrimeIndex))
+    return newTimedCrimeButton;
+}
+
+function createTimedInvestmentButton(investmentIndex,timedInvestmentData)
+{
+    var newTimedInvestment = timedInvestmentData;
+
+    var newTimedInvestmentButton = document.createElement("button");
+
+    newTimedInvestmentButton.className = "unit_of_crime_button";
+    newTimedInvestmentButton.id = "investmentButtonID" + investmentIndex;
+    newTimedInvestmentButton.innerHTML = timedInvestmentData.name;
+
+    newTimedInvestmentButton.addEventListener("click", () => clickOnInvestmentButton(investmentIndex))
+    return newTimedInvestmentButton;
+}
+
+function clickOnInvestmentButton(investmentIndex)
+{
+    if (firstInvestmentData.state == 1)
+    {
+
+    }
+}
+
+function refreshInvestmentButtons()
+{
+    var newInvestmentButtonText = ""
+    console.log(firstInvestmentData.state);
+
+    switch (firstInvestmentData.state) {
+        case 0:
+            newInvestmentButtonText = "invest $10 at 100% over 5 seconds";
+            break;
+        case 1:
+            var formattedTime = "";
+            var timeUntilComplete = dayjs.duration(dayjs(firstInvestmentData.datetimeCrimeWillEnd).diff(dayjs()));
+            timeUntilComplete.seconds = timeUntilComplete.format("ss");
+            newInvestmentButtonText = "time until complete<br>" +
+                timeUntilComplete.seconds + " s";
+            break;        
+        case 2:
+            newInvestmentButtonText = "investment complete<br>collect earnings";
+    }
+    
+
+    document.getElementById("investmentButtonID" + 0).innerHTML = newInvestmentButtonText;
+
+}
+
+
+// ***
+// CREATION FUNCTIONS
+// THESE ARE TO BE USED ONCE PER GAME
+// ***
+
+function createAccomodationDiv() {
+    var accomodationDiv = document.createElement("div");
+    accomodationDiv.className = "unit_of_crime";
+    accomodationDiv.id = "acommodationDivID";
+    document.getElementById("crimeBlockID").appendChild(accomodationDiv);
+    accomodationDiv.innerHTML = "accomodation:";
+    var accomodationButton = createInfoButton("a cardboard box", "this is your home. it isn't much but.. well it's inexpensive");
+    accomodationButton.id = "accomodationButtonID";
+    accomodationDiv.appendChild(accomodationButton);
+}
+
+
+function createAutoCrimePanel() {
+    var autoCrimeDiv = createPanelDiv("friendship", "you have made a friend uwu<br><br>your friend is a passionate criminal,<br>" +
+        "and if you want, they can encourage you to recommit crimes once you've finished them");
+    var autoCrimeButton = document.createElement("button");
+    autoCrimeButton.className = "unit_of_crime_button";
+    autoCrimeButton.id = "autoCrimeButtonID";
+    autoCrimeButton.addEventListener("click", () => toggleAutoCrimeButton());
+    autoCrimeDiv.appendChild(autoCrimeButton);
+    document.getElementById("autoCrimeButtonID").innerHTML = "autocrime is OFF";
 }
 
 
 function panelCreateMinorCrimes() {
     // make minor crimes panel
-    var minorCrimesDiv = createCrimeDiv("MINOR CRIMES", "these crimes, they don't really matter, it's impossible for them to hurt people");
+    var minorCrimesDiv = createPanelDiv("MINOR CRIMES", "these crimes, they don't really matter, it's impossible for them to hurt people");
 
     minorCrimesDiv.appendChild(createInfoButton("jaywalking", "the lamest of crimes"));
     setOfTimedCrimes.push(new timedCrime("jaywalking", 5000, 0, 0, 0, 5));
@@ -290,26 +322,57 @@ function panelCreateMinorCrimes() {
 }
 
 function panelCreateMiniCrimes() {
-    var minorCrimesDiv = createCrimeDiv("MINI CRIMES", "small crimes<br>but still meaningingful<br>a life of crime may be peppered with the salt that is mini crimes<br><br>these crimes are the spice of life");
+    var minorCrimesDiv = createPanelDiv("MINI CRIMES", "small crimes<br>but still meaningingful<br>a life of crime may be peppered with the salt that is mini crimes<br><br>these crimes are the spice of life");
 
 
+}
+
+
+
+
+// ***
+// LOOP CALLED EVERY FRAME
+// ***
+function refreshLoop(timestamp) {
+    updateHeaderGlobalFundamentals();
+    // globalFundamentals.playerCrimesCommitted = globalFundamentals.playerCrimesCommitted + 1;
+
+
+    // refresh all the timers
+    for (var cyclerIndex = 0; cyclerIndex < 2; cyclerIndex++) {
+        checkIfTimersElapsed(cyclerIndex);
+        refreshCrimeTimers(cyclerIndex);
+    }
+
+    refreshInvestmentButtons();
+
+
+    // and set up the refresh loop to start next repaint of the frame
+    window.requestAnimationFrame(refreshLoop);
 }
 
 // ***
 // START OF THE EXECUTION
 // ***
 
-// createAutoCrimePanel();
-createAccomodationDiv();
 updateCommsPanel("", "this is a game");
 
 // init all the panels to off
 var panelsAvailable_autocrime = false;
+var panelsAvailable_minicrimes = false;
 
-
+createAccomodationDiv();
 var setOfTimedCrimes = [];
 panelCreateMinorCrimes();
 panelCreateMiniCrimes();
+
+var setOfInvestments = [];
+
+var smallInvestmentPanelDiv = createPanelDiv("SMALL INVESTMENTS", "make some money big dawg")
+
+
+
+
 var autoCrimeState = false;
 
 
@@ -318,6 +381,7 @@ var autoCrimeState = false;
 // set the title text, version number and made by text, from values just above
 updateHeaderGlobalFundamentals();
 
+// init the title button
 document.getElementById("titleID").innerHTML = "";
 var crimeCommitterLogoButton = document.createElement("button");
 crimeCommitterLogoButton.className = "main_title";
@@ -327,8 +391,6 @@ document.getElementById("titleID").addEventListener("click", () => updateCommsPa
     "welcome to the game<br><br>" +
     "click on things to execute crimes<br><br>I really hope you enjoy"));
 
-
-//addBunchOfCrimeBlocks(50);
 
 
 

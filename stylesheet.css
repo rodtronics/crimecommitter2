@@ -188,6 +188,8 @@ a {
     display: flex;
     flex-direction: column;
     border-style: dotted;
+    border-width: 3px;
+
     padding: 8px;
     width: 20%;
     flex-wrap: wrap;
@@ -199,6 +201,8 @@ a {
 .unit_of_crime_button {
     color: var(--color-B);
     border-style: dotted;
+    border-width: 3px;
+
     border-color: var(--color-A);
     padding: 8px;
     font-size: 1em;
