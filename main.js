@@ -70,8 +70,7 @@ function timedCrime(
 // this function/struct is holds an investment.
 // interestGained is the multiplier applied at the end
 // eg 1.05 means 5% interest over the term
-function timedInvestment(index,name, millisecondsToComplete, moneyInvested, interestGained, datetimeCrimeStarted, datetimeCrimeWillEnd, state)
-{
+function timedInvestment(index, name, millisecondsToComplete, moneyInvested, interestGained, datetimeCrimeStarted, datetimeCrimeWillEnd, state) {
     this.index = index;
     this.name = name;
     this.millisecondsToComplete = millisecondsToComplete;
@@ -172,6 +171,12 @@ function clickOnCrimeButton(timedCrimeIndex) {
 
 }
 
+function getDateTimesFromMilliseconds(milliseconds) {
+    var datetimeStarted = dayjs();
+    var datetimeWillEnd = dayjs().add(dayjs(milliseconds, "milliseconds"));
+    return [datetimeStarted, datetimeWillEnd];
+}
+
 function setDatetimes(timedCrimeIndex) {
     // set time crime initiated
     setOfTimedCrimes[timedCrimeIndex].timedCrimeValues.datetimeCrimeStarted = dayjs();
@@ -229,8 +234,47 @@ function createTimedCrimeButton(timedCrimeIndex) {
     return newTimedCrimeButton;
 }
 
-function createTimedInvestmentButton(investmentIndex,timedInvestmentData)
-{
+
+// this is a blank button that encourages the player to click it and start an
+// investment
+function createBlankTimedInvestmentButton(timedInvestmentData) {
+    var newBlankTimedInvestmentButton = document.createElement("button");
+    newBlankTimedInvestmentButton.className = "unit_of_crime_button";
+    newBlankTimedInvestmentButton.innerHTML = "click 2 invest";
+    newBlankTimedInvestmentButton.id = "blankInvestmentButtonID" + blankInvestmentButtonIndex;
+
+    newBlankTimedInvestmentButton.addEventListener("click", () => clickOnBlankInvestmentButton())
+
+
+    return newBlankTimedInvestmentButton;
+
+
+}
+
+
+// note this does not test to see if can make investment it just does it
+
+function clickOnBlankInvestmentButton() {
+    var nextIndex = length(setOfInvestments) + 1;
+    var datetimes = getDateTimesFromMilliseconds();
+    var newTimedInvestment = new timedInvestment(nextIndex, "cool investment", 10000, 10, 1.5, datetimes[0], datetimes[1], 1)
+    setOfInvestments.push(newTimedInvestment);
+    newTimedInvestmentButton = createTimedInvestmentButton(nextIndex, newTimedInvestment);
+
+    document.getElementById("blankInvestmentButtonID" + blankInvestmentButtonIndex).remove();
+    blankInvestmentButtonIndex++;
+
+    smallInvestmentPanelDiv.appendChild(newBlankInvestmentButton);
+
+    return newBlankInvestmentButton;
+
+
+
+
+
+}
+
+function createTimedInvestmentButton(investmentIndex, timedInvestmentData) {
     var newTimedInvestment = timedInvestmentData;
 
     var newTimedInvestmentButton = document.createElement("button");
@@ -243,16 +287,13 @@ function createTimedInvestmentButton(investmentIndex,timedInvestmentData)
     return newTimedInvestmentButton;
 }
 
-function clickOnInvestmentButton(investmentIndex)
-{
-    if (firstInvestmentData.state == 1)
-    {
+function clickOnInvestmentButton(investmentIndex) {
+    if (firstInvestmentData.state == 1) {
 
     }
 }
 
-function refreshInvestmentButtons()
-{
+function refreshInvestmentButtons() {
     var newInvestmentButtonText = ""
     console.log(firstInvestmentData.state);
 
@@ -266,11 +307,11 @@ function refreshInvestmentButtons()
             timeUntilComplete.seconds = timeUntilComplete.format("ss");
             newInvestmentButtonText = "time until complete<br>" +
                 timeUntilComplete.seconds + " s";
-            break;        
+            break;
         case 2:
             newInvestmentButtonText = "investment complete<br>collect earnings";
     }
-    
+
 
     document.getElementById("investmentButtonID" + 0).innerHTML = newInvestmentButtonText;
 
@@ -293,7 +334,6 @@ function createAccomodationDiv() {
     accomodationDiv.appendChild(accomodationButton);
 }
 
-
 function createAutoCrimePanel() {
     var autoCrimeDiv = createPanelDiv("friendship", "you have made a friend uwu<br><br>your friend is a passionate criminal,<br>" +
         "and if you want, they can encourage you to recommit crimes once you've finished them");
@@ -304,7 +344,6 @@ function createAutoCrimePanel() {
     autoCrimeDiv.appendChild(autoCrimeButton);
     document.getElementById("autoCrimeButtonID").innerHTML = "autocrime is OFF";
 }
-
 
 function panelCreateMinorCrimes() {
     // make minor crimes panel
@@ -344,7 +383,7 @@ function refreshLoop(timestamp) {
         refreshCrimeTimers(cyclerIndex);
     }
 
-    refreshInvestmentButtons();
+    // refreshInvestmentButtons();
 
 
     // and set up the refresh loop to start next repaint of the frame
@@ -361,6 +400,8 @@ updateCommsPanel("", "this is a game");
 var panelsAvailable_autocrime = false;
 var panelsAvailable_minicrimes = false;
 
+var blankInvestmentButtonIndex = 0;
+
 createAccomodationDiv();
 var setOfTimedCrimes = [];
 panelCreateMinorCrimes();
@@ -369,8 +410,11 @@ panelCreateMiniCrimes();
 var setOfInvestments = [];
 
 var smallInvestmentPanelDiv = createPanelDiv("SMALL INVESTMENTS", "make some money big dawg")
+    // var newBlankInvestmentButton = createBlankTimedInvestmentButton();
+    // smallInvestmentPanelDiv.appendChild(newBlankInvestmentButton);
 
-
+var blankButton = createBlankTimedInvestmentButton();
+smallInvestmentPanelDiv.appendChild(blankButton);
 
 
 var autoCrimeState = false;
@@ -385,7 +429,7 @@ updateHeaderGlobalFundamentals();
 document.getElementById("titleID").innerHTML = "";
 var crimeCommitterLogoButton = document.createElement("button");
 crimeCommitterLogoButton.className = "main_title";
-crimeCommitterLogoButton.innerHTML = "crime committer II<br>" + versionNumber + " " + versionCode + " <br>wfproductionsnz " + dayjs().year()
+crimeCommitterLogoButton.innerHTML = "crime committer ][<br>" + versionNumber + " " + versionCode + " <br>wfproductionsnz " + dayjs().year()
 document.getElementById("titleID").appendChild(crimeCommitterLogoButton);
 document.getElementById("titleID").addEventListener("click", () => updateCommsPanel("crime committer ][",
     "welcome to the game<br><br>" +
